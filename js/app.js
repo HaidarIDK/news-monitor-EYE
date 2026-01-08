@@ -75,7 +75,7 @@ function toggleSettings() {
         updateSettingsUI();
         renderMonitorsList();
         // Load saved livestream URL
-        const savedUrl = localStorage.getItem('livestreamUrl') || 'https://www.youtube.com/watch?v=YDvsBbKfLPA';
+        const savedUrl = localStorage.getItem('livestreamUrl') || 'https://www.youtube.com/watch?v=IuxPj8V6hkU';
         document.getElementById('livestreamUrl').value = savedUrl;
         // Update theme toggle state
         updateThemeToggle();
@@ -202,7 +202,7 @@ function applyLivestreamUrl() {
 
 // Update the livestream embed
 function updateLivestreamEmbed() {
-    const url = localStorage.getItem('livestreamUrl') || 'https://www.youtube.com/watch?v=YDvsBbKfLPA';
+    const url = localStorage.getItem('livestreamUrl') || 'https://www.youtube.com/watch?v=IuxPj8V6hkU';
     const videoId = extractYouTubeId(url);
     const panel = document.getElementById('tbpnPanel');
     if (panel && videoId) {
@@ -221,7 +221,7 @@ function updateLivestreamEmbed() {
 
 // Get current livestream embed URL
 function getLivestreamEmbedUrl() {
-    const url = localStorage.getItem('livestreamUrl') || 'https://www.youtube.com/watch?v=YDvsBbKfLPA';
+    const url = localStorage.getItem('livestreamUrl') || 'https://www.youtube.com/watch?v=IuxPj8V6hkU';
     const videoId = extractYouTubeId(url);
     return videoId ? `https://www.youtube.com/embed/${videoId}?autoplay=0&mute=1` : '';
 }
