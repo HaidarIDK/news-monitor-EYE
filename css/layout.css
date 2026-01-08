@@ -1,0 +1,216 @@
+/* ===========================================
+   Layout Styles - Main Structure
+   =========================================== */
+
+/* Main Layout with Uxento Sidebar */
+.main-layout {
+    display: flex;
+    flex: 1;
+    overflow: hidden;
+}
+
+.dashboard-wrapper {
+    flex: 1;
+    overflow-y: auto;
+    position: relative;
+}
+
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-template-rows: auto auto;
+    gap: 16px;
+    padding: 16px;
+    background: var(--surface);
+}
+
+/* Uxento Sidebar */
+.uxento-sidebar {
+    width: 380px;
+    min-width: 380px;
+    background: var(--bg);
+    border-right: 1px solid var(--border);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.uxento-sidebar.collapsed {
+    width: 0;
+    min-width: 0;
+    border-right: none;
+}
+
+.uxento-sidebar.disabled {
+    display: none;
+}
+
+.uxento-header {
+    padding: 14px 16px;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+}
+
+.uxento-title {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.uxento-header-btns {
+    display: flex;
+    gap: 6px;
+}
+
+.uxento-toggle, .uxento-reset {
+    background: var(--bg);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.8rem;
+    transition: all 0.15s;
+}
+
+.uxento-toggle:hover, .uxento-reset:hover {
+    background: var(--surface-hover);
+    color: var(--text);
+}
+
+.uxento-setup {
+    padding: 24px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.uxento-setup-text {
+    font-size: 0.85rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+}
+
+.uxento-input {
+    width: 100%;
+    padding: 12px 14px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    color: var(--text);
+    font-family: inherit;
+    font-size: 0.85rem;
+    box-sizing: border-box;
+}
+
+.uxento-input:focus {
+    outline: none;
+    border-color: var(--accent);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+.uxento-input::placeholder {
+    color: var(--text-dim);
+}
+
+.uxento-btn {
+    padding: 12px;
+    background: var(--accent);
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: inherit;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background 0.15s;
+}
+
+.uxento-btn:hover {
+    background: #1d4ed8;
+}
+
+.uxento-frame-container {
+    flex: 1;
+    overflow: hidden;
+    background: var(--surface);
+    position: relative;
+}
+
+.uxento-loading {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background: var(--surface);
+    z-index: 10;
+}
+
+.uxento-loading.hidden {
+    display: none;
+}
+
+.uxento-spinner {
+    width: 32px;
+    height: 32px;
+    border: 3px solid var(--border);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: uxento-spin 1s linear infinite;
+}
+
+@keyframes uxento-spin {
+    to { transform: rotate(360deg); }
+}
+
+.uxento-loading-text {
+    margin-top: 12px;
+    font-size: 0.8rem;
+    color: var(--text-dim);
+}
+
+.uxento-frame {
+    width: 100%;
+    height: 100%;
+    border: none;
+}
+
+.uxento-expand-btn {
+    position: fixed;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--bg);
+    border: 1px solid var(--border);
+    border-left: none;
+    border-radius: 0 8px 8px 0;
+    color: var(--text-dim);
+    padding: 12px 8px;
+    cursor: pointer;
+    z-index: 100;
+    transition: all 0.15s;
+    display: none;
+    box-shadow: 2px 0 8px rgba(0, 0, 0, 0.05);
+}
+
+.uxento-expand-btn:hover {
+    background: var(--surface);
+    color: var(--text);
+}
+
+.uxento-sidebar.collapsed + .dashboard-wrapper .uxento-expand-btn {
+    display: block;
+}

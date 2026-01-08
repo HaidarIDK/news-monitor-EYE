@@ -1,0 +1,236 @@
+/* ===========================================
+   Panel Styles - Dashboard Panels
+   =========================================== */
+
+.panel {
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    min-height: 300px;
+    transition: min-height 0.2s, opacity 0.2s, transform 0.15s;
+    border-radius: 12px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+    border: 1px solid var(--border);
+    overflow: hidden;
+    position: relative;
+    resize: none;
+}
+
+.panel.hidden {
+    min-height: 0;
+    display: none;
+}
+
+.panel.wide {
+    grid-column: span 2;
+}
+
+.panel.dragging {
+    opacity: 0.5;
+    transform: scale(0.98);
+}
+
+.panel.drag-over {
+    outline: 2px dashed var(--accent);
+    outline-offset: -2px;
+}
+
+.panel.collapsed {
+    min-height: auto;
+}
+
+.panel.collapsed .panel-content {
+    max-height: 0;
+    overflow: hidden;
+}
+
+.panel.resizing {
+    user-select: none;
+    transition: none;
+}
+
+.panel.resizing * {
+    pointer-events: none;
+}
+
+/* Panel Header */
+.panel-header {
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: grab;
+    user-select: none;
+    background: var(--bg);
+    position: relative;
+}
+
+.panel-header:active {
+    cursor: grabbing;
+}
+
+.panel-header:hover {
+    background: var(--surface);
+}
+
+.drag-handle {
+    color: var(--text-dim);
+    margin-right: 0.5rem;
+    font-size: 0.7rem;
+    opacity: 0.5;
+}
+
+.panel-header:hover .drag-handle {
+    opacity: 1;
+}
+
+.panel-header-left {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.panel-toggle {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    transition: transform 0.2s;
+}
+
+.panel.collapsed .panel-toggle {
+    transform: rotate(-90deg);
+}
+
+.panel-title {
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: var(--text);
+}
+
+.panel-count {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+}
+
+/* Panel Content */
+.panel-content {
+    flex: 1;
+    overflow-y: auto;
+    max-height: 380px;
+    transition: max-height 0.2s;
+}
+
+/* Panel Resize Handles */
+.panel-resize-handle {
+    position: absolute;
+    background: transparent;
+    z-index: 10;
+}
+
+.panel-resize-handle.corner {
+    width: 16px;
+    height: 16px;
+    bottom: 0;
+    right: 0;
+    cursor: nwse-resize;
+}
+
+.panel-resize-handle.corner::before {
+    content: '';
+    position: absolute;
+    bottom: 3px;
+    right: 3px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--border);
+    border-bottom: 2px solid var(--border);
+    opacity: 0.5;
+    transition: all 0.2s ease;
+}
+
+.panel:hover .panel-resize-handle.corner::before {
+    opacity: 1;
+    border-color: var(--text-dim);
+}
+
+.panel-resize-handle.corner:hover::before {
+    border-color: var(--accent);
+    width: 10px;
+    height: 10px;
+}
+
+.panel-resize-handle.bottom {
+    height: 6px;
+    left: 0;
+    right: 16px;
+    bottom: 0;
+    cursor: ns-resize;
+}
+
+.panel-resize-handle.right {
+    width: 6px;
+    top: 0;
+    bottom: 16px;
+    right: 0;
+    cursor: ew-resize;
+}
+
+/* Panel Item */
+.item {
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.item:hover {
+    background: var(--surface);
+}
+
+.item.alert {
+    border-left: 3px solid var(--yellow);
+}
+
+.item-source {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.25rem;
+    font-weight: 500;
+}
+
+.item-title {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text);
+    text-decoration: none;
+    display: block;
+    line-height: 1.4;
+}
+
+.item-title:hover {
+    color: var(--accent);
+}
+
+.item-time {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 0.35rem;
+}
+
+.alert-tag {
+    font-size: 0.65rem;
+    background: var(--yellow);
+    color: #fff;
+    padding: 0.15rem 0.4rem;
+    margin-left: 0.5rem;
+    font-weight: 600;
+    border-radius: 4px;
+}
+
+/* Wide Panel */
+.panel-wide {
+    grid-column: span 2;
+}

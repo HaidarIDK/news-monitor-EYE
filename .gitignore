@@ -1,0 +1,18 @@
+# Backups
+*.backup.html
+index-backup.html
+oldindex.html
+
+# Vercel
+.vercel
+
+# Claude
+.claude
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode
+.idea

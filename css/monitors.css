@@ -1,0 +1,360 @@
+/* ===========================================
+   Custom Monitors Styles
+   =========================================== */
+
+/* Monitors Section in Settings */
+.monitors-section {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.monitors-list {
+    max-height: 200px;
+    overflow-y: auto;
+    margin-bottom: 0.75rem;
+}
+
+.monitor-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    margin-bottom: 0.5rem;
+    border-radius: 2px;
+}
+
+.monitor-item-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.monitor-item-name {
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+
+.monitor-item-color {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.monitor-item-keywords {
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.monitor-item-location {
+    font-size: 0.5rem;
+    color: var(--green);
+    margin-top: 0.15rem;
+}
+
+.monitor-item-actions {
+    display: flex;
+    gap: 0.25rem;
+}
+
+.monitor-item-btn {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+    width: 22px;
+    height: 22px;
+    font-size: 0.6rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+}
+
+.monitor-item-btn:hover {
+    border-color: var(--text);
+    color: var(--text);
+}
+
+.monitor-item-btn.delete:hover {
+    border-color: var(--red);
+    color: var(--red);
+}
+
+.add-monitor-btn {
+    width: 100%;
+    padding: 10px;
+    background: #22262f;
+    border: 1px dashed #3a3f4a;
+    border-radius: 6px;
+    color: #9ca3af;
+    font-family: inherit;
+    font-size: 0.7rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    margin-top: 8px;
+}
+
+.add-monitor-btn:hover {
+    border-color: #3b82f6;
+    color: #3b82f6;
+    background: rgba(59, 130, 246, 0.1);
+}
+
+/* My Monitors Panel */
+.monitor-match {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.monitor-match:hover {
+    background: var(--surface);
+}
+
+.monitor-match-header {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    margin-bottom: 0.3rem;
+}
+
+.monitor-match-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.monitor-match-name {
+    font-size: 0.6rem;
+    font-weight: bold;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.monitor-match-title {
+    font-size: 0.75rem;
+    color: var(--text);
+    text-decoration: none;
+    display: block;
+}
+
+.monitor-match-title:hover {
+    color: var(--accent);
+}
+
+.monitor-match-source {
+    font-size: 0.5rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+}
+
+.monitors-empty {
+    padding: 1.5rem 1rem;
+    text-align: center;
+    color: var(--text-dim);
+    font-size: 0.7rem;
+}
+
+.monitors-empty-hint {
+    font-size: 0.6rem;
+    margin-top: 0.5rem;
+    opacity: 0.7;
+}
+
+/* Custom Hotspot (user-created) */
+.custom-hotspot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    pointer-events: auto;
+    z-index: 21;
+    cursor: pointer;
+}
+
+.custom-hotspot-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    position: relative;
+    border: 2px solid;
+    box-shadow: 0 0 10px currentColor;
+    transition: all 0.2s;
+}
+
+.custom-hotspot-dot::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    animation: custom-pulse 2s ease-out infinite;
+    background: currentColor;
+}
+
+@keyframes custom-pulse {
+    0% { width: 100%; height: 100%; opacity: 0.6; }
+    100% { width: 250%; height: 250%; opacity: 0; }
+}
+
+.custom-hotspot:hover .custom-hotspot-dot {
+    transform: scale(1.4);
+    box-shadow: 0 0 20px currentColor;
+}
+
+.custom-hotspot-label {
+    position: absolute;
+    top: 18px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.5rem;
+    font-family: 'SF Mono', monospace;
+    white-space: nowrap;
+    text-shadow: 0 0 5px currentColor;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    transition: all 0.2s;
+}
+
+.custom-hotspot:hover .custom-hotspot-label {
+    transform: translateX(-50%) scale(1.1);
+}
+
+.custom-hotspot-count {
+    font-size: 0.4rem;
+    opacity: 0.7;
+}
+
+/* Custom Hotspot Popup */
+.custom-hotspot-popup {
+    display: none;
+    position: absolute;
+    z-index: 100;
+    background: rgba(5, 10, 8, 0.95);
+    border: 1px solid var(--border);
+    min-width: 280px;
+    max-width: 350px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+}
+
+:root.light-mode .custom-hotspot-popup {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12);
+}
+
+.custom-hotspot-popup.visible {
+    display: block;
+}
+
+.custom-hotspot-popup-header {
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.custom-hotspot-popup-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+.custom-hotspot-popup-name {
+    font-size: 0.85rem;
+    font-weight: bold;
+}
+
+.custom-hotspot-popup-count {
+    margin-left: auto;
+    font-size: 0.65rem;
+    padding: 0.2rem 0.5rem;
+    border-radius: 3px;
+    background: var(--surface);
+}
+
+.custom-hotspot-popup-keywords {
+    padding: 0.5rem 1rem;
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    border-bottom: 1px solid var(--border);
+}
+
+.custom-hotspot-popup-coords {
+    padding: 0.4rem 1rem;
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    font-family: 'SF Mono', monospace;
+    border-bottom: 1px solid var(--border);
+}
+
+.custom-hotspot-popup-matches {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+.custom-hotspot-popup-match {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.custom-hotspot-popup-match:last-child {
+    border-bottom: none;
+}
+
+.custom-hotspot-popup-match a {
+    font-size: 0.7rem;
+    color: var(--text);
+    text-decoration: none;
+    display: block;
+}
+
+.custom-hotspot-popup-match a:hover {
+    color: var(--accent);
+}
+
+.custom-hotspot-popup-match-source {
+    font-size: 0.5rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+}
+
+.custom-hotspot-popup-empty {
+    padding: 1rem;
+    text-align: center;
+    font-size: 0.7rem;
+    color: var(--text-dim);
+}
+
+.custom-hotspot-popup-close {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    background: none;
+    border: none;
+    color: var(--text-dim);
+    font-size: 1rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    line-height: 1;
+}
+
+.custom-hotspot-popup-close:hover {
+    color: var(--text);
+}

@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The World Eye</title>
+
+    <!-- CSS Files -->
+    <link rel="stylesheet" href="css/variables.css">
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/header.css">
+    <link rel="stylesheet" href="css/layout.css">
+    <link rel="stylesheet" href="css/panels.css">
+    <link rel="stylesheet" href="css/components.css">
+    <link rel="stylesheet" href="css/livestream.css">
+    <link rel="stylesheet" href="css/monitors.css">
+    <link rel="stylesheet" href="css/modals.css">
+    <link rel="stylesheet" href="css/map.css">
+    <link rel="stylesheet" href="css/map-markers.css">
+    <link rel="stylesheet" href="css/map-overlays.css">
+    <link rel="stylesheet" href="css/responsive.css">
+
+    <!-- External Dependencies -->
+    <script src="https://d3js.org/d3.v7.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/topojson-client@3"></script>
+</head>
+<body>
+    <header class="header">
+        <div class="header-left">
+            <h1 class="title">The World Eye</h1>
+            <span class="status" id="status">Ready</span>
+        </div>
+        <div class="header-right">
+            <a href="https://x.com/TheWorldEyeSol" target="_blank" class="header-x-btn" title="Follow us on X">X</a>
+            <button class="refresh-btn monitors-btn" onclick="openMonitorForm()">+ Monitor</button>
+            <button class="settings-btn" onclick="toggleSettings()">Panels</button>
+            <button class="refresh-btn" id="refreshBtn" onclick="refreshAll()">Refresh</button>
+        </div>
+    </header>
+
+    <!-- Settings Modal -->
+    <div class="settings-modal" id="settingsModal" onclick="if(event.target === this) toggleSettings()">
+        <div class="settings-content">
+            <div class="settings-title">Settings</div>
+            <div class="settings-body">
+                <div class="settings-section">
+                    <div class="settings-section-title">Panels</div>
+                    <div id="panelToggles"></div>
+                </div>
+                <div class="settings-section">
+                    <div class="settings-section-title">Twitter Monitor (Uxento)</div>
+                    <div class="panel-toggle-item">
+                        <label onclick="toggleUxentoEnabled()">Enable Twitter Sidebar</label>
+                        <div class="toggle-switch" id="uxentoToggle" onclick="toggleUxentoEnabled()"></div>
+                    </div>
+                    <input type="text" id="uxentoUrlSettings" class="settings-input" placeholder="https://app.uxento.io/aio" style="margin-top: 8px;" onchange="saveUxentoUrl()">
+                </div>
+                <div class="settings-section">
+                    <div class="settings-section-title">Livestream</div>
+                    <input type="text" id="livestreamUrl" class="settings-input" placeholder="YouTube URL..." onchange="saveLivestreamUrl()">
+                </div>
+                <div class="settings-section">
+                    <div class="settings-section-title">Appearance</div>
+                    <div class="panel-toggle-item">
+                        <label onclick="toggleTheme()">Light Mode</label>
+                        <div class="toggle-switch" id="themeToggle" onclick="toggleTheme()"></div>
+                    </div>
+                </div>
+                <div class="settings-section">
+                    <div class="settings-section-title">Layout</div>
+                    <button class="settings-reset" onclick="resetPanelOrder()">Reset Panel Order</button>
+                </div>
+                <div class="settings-section">
+                    <div class="settings-section-title">Custom Monitors</div>
+                    <div class="monitors-list" id="monitorsList"></div>
+                    <button class="add-monitor-btn" onclick="openMonitorForm()">+ Add Monitor</button>
+                </div>
+            </div>
+            <div class="settings-footer">
+                <button class="settings-close" onclick="toggleSettings()">Done</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Monitor Form Modal -->
+    <div class="monitor-form-overlay" id="monitorFormOverlay" onclick="if(event.target === this) closeMonitorForm()">
+        <div class="monitor-form">
+            <div class="monitor-form-title" id="monitorFormTitle">Add Monitor</div>
+            <input type="hidden" id="monitorEditId">
+            <div class="monitor-form-field">
+                <label class="monitor-form-label">Name</label>
+                <input type="text" class="monitor-form-input" id="monitorName" placeholder="e.g., TSMC Supply Chain">
+            </div>
+            <div class="monitor-form-field">
+                <label class="monitor-form-label">Keywords</label>
+                <input type="text" class="monitor-form-input" id="monitorKeywords" placeholder="e.g., tsmc, taiwan semiconductor, chip">
+                <div class="monitor-form-hint">Comma-separated. Matches headlines containing any keyword.</div>
+            </div>
+            <div class="monitor-form-field">
+                <label class="monitor-form-label">Color</label>
+                <div class="monitor-form-colors" id="monitorColors"></div>
+            </div>
+            <div class="monitor-form-field">
+                <label class="monitor-form-label">Map Location (Optional)</label>
+                <div class="monitor-form-location">
+                    <input type="text" class="monitor-form-input" id="monitorLat" placeholder="Latitude">
+                    <input type="text" class="monitor-form-input" id="monitorLon" placeholder="Longitude">
+                </div>
+                <div class="monitor-form-hint">Leave blank for keyword-only monitoring. Add coords to show on map.</div>
+            </div>
+            <div class="monitor-form-actions">
+                <button class="monitor-cancel-btn" onclick="closeMonitorForm()">Cancel</button>
+                <button class="monitor-save-btn" onclick="saveMonitor()">Save</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-layout">
+        <!-- Uxento Twitter Monitor Sidebar -->
+        <aside class="uxento-sidebar disabled" id="uxentoSidebar">
+            <div class="uxento-header">
+                <span class="uxento-title">Twitter Monitor</span>
+                <div class="uxento-header-btns">
+                    <button class="uxento-reset" onclick="resetUxento()" title="Reset / Change URL">↻</button>
+                    <button class="uxento-toggle" onclick="toggleUxentoSidebar()" title="Collapse">◀</button>
+                </div>
+            </div>
+            <div class="uxento-setup" id="uxentoSetup">
+                <div class="uxento-setup-text">Enter your Uxento dashboard URL to monitor Twitter feeds in real-time.</div>
+                <input type="text" class="uxento-input" id="uxentoUrl" placeholder="https://app.uxento.io/aio" value="https://app.uxento.io/aio">
+                <button class="uxento-btn" onclick="loadUxento()">Load Dashboard</button>
+            </div>
+            <div class="uxento-frame-container" id="uxentoFrameContainer" style="display: none;">
+                <div class="uxento-loading" id="uxentoLoading">
+                    <div class="uxento-spinner"></div>
+                    <div class="uxento-loading-text">Loading Twitter Monitor...</div>
+                </div>
+                <iframe class="uxento-frame" id="uxentoFrame" src="" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"></iframe>
+            </div>
+        </aside>
+
+        <div class="dashboard-wrapper">
+            <button class="uxento-expand-btn" id="uxentoExpandBtn" onclick="enableUxento()" title="Show Twitter Monitor" style="display: none;">▶</button>
+            <main class="dashboard">
+                <!-- Global Intelligence Map -->
+                <section class="panel" data-panel="map" style="grid-column: span 4;">
+                    <div class="panel-header">
+                        <span class="panel-title">Global Activity Monitor</span>
+                        <span class="panel-count" id="mapLegend">
+                            <span style="color: var(--green);">● Low</span>
+                            <span style="color: var(--yellow); margin-left: 0.5rem;">● Medium</span>
+                            <span style="color: var(--red); margin-left: 0.5rem;">● High</span>
+                        </span>
+                    </div>
+                    <div class="panel-content" id="mapPanel" style="max-height: none; overflow: hidden;">
+                        <div class="loading-msg">Loading map...</div>
+                    </div>
+                </section>
+
+                <!-- TBPN Livestream -->
+                <section class="panel panel-livestream" data-panel="tbpn">
+                    <div class="panel-header">
+                        <span class="panel-title">Livestream</span>
+                        <div class="livestream-header-right">
+                            <span class="live-indicator">LIVE</span>
+                            <button class="livestream-settings-btn" onclick="toggleLivestreamSettings(event)" title="Change stream URL">⚙</button>
+                        </div>
+                        <div class="livestream-settings-popup" id="livestreamSettingsPopup">
+                            <input type="text" id="livestreamUrlInline" placeholder="Paste YouTube URL..." onkeydown="if(event.key==='Enter')applyLivestreamUrl()">
+                            <button onclick="applyLivestreamUrl()">Apply</button>
+                        </div>
+                    </div>
+                    <div class="panel-content livestream-container" id="tbpnPanel">
+                        <div class="loading-msg">Loading stream...</div>
+                    </div>
+                </section>
+
+                <!-- Political / World News -->
+                <section class="panel" data-panel="politics">
+                    <div class="panel-header">
+                        <span class="panel-title">World / Geopolitical</span>
+                        <span class="panel-count" id="politicsCount">-</span>
+                    </div>
+                    <div class="panel-content" id="politicsPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Technology News -->
+                <section class="panel" data-panel="tech">
+                    <div class="panel-header">
+                        <span class="panel-title">Technology / AI</span>
+                        <span class="panel-count" id="techCount">-</span>
+                    </div>
+                    <div class="panel-content" id="techPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Financial News -->
+                <section class="panel" data-panel="finance">
+                    <div class="panel-header">
+                        <span class="panel-title">Financial</span>
+                        <span class="panel-count" id="financeCount">-</span>
+                    </div>
+                    <div class="panel-content" id="financePanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Government / Policy -->
+                <section class="panel" data-panel="gov">
+                    <div class="panel-header">
+                        <span class="panel-title">Government / Policy</span>
+                        <span class="panel-count" id="govCount">-</span>
+                    </div>
+                    <div class="panel-content" id="govPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Sector Heatmap -->
+                <section class="panel" data-panel="heatmap">
+                    <div class="panel-header">
+                        <span class="panel-title">Sector Heatmap</span>
+                    </div>
+                    <div class="panel-content" id="heatmapPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Markets -->
+                <section class="panel wide" data-panel="markets">
+                    <div class="panel-header">
+                        <span class="panel-title">Markets</span>
+                        <span class="panel-count" id="marketsCount">-</span>
+                    </div>
+                    <div class="panel-content" id="marketsPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Commodities -->
+                <section class="panel" data-panel="commodities">
+                    <div class="panel-header">
+                        <span class="panel-title">Commodities / VIX</span>
+                    </div>
+                    <div class="panel-content" id="commoditiesPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Polymarket -->
+                <section class="panel wide" data-panel="polymarket">
+                    <div class="panel-header">
+                        <span class="panel-title">Polymarket Predictions</span>
+                        <span class="panel-count" id="polymarketCount">-</span>
+                    </div>
+                    <div class="panel-content" id="polymarketPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Congressional Trading -->
+                <section class="panel" data-panel="congress">
+                    <div class="panel-header">
+                        <span class="panel-title">Congress Trades</span>
+                        <span class="panel-count" id="congressCount">-</span>
+                    </div>
+                    <div class="panel-content" id="congressPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Whale Wallet Watch -->
+                <section class="panel" data-panel="whales">
+                    <div class="panel-header">
+                        <span class="panel-title">Whale Watch</span>
+                        <span class="panel-count" id="whaleCount">-</span>
+                    </div>
+                    <div class="panel-content" id="whalePanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Main Character -->
+                <section class="panel" data-panel="mainchar">
+                    <div class="panel-header">
+                        <span class="panel-title">Main Character</span>
+                        <span class="panel-count">Today</span>
+                    </div>
+                    <div class="panel-content" id="mainCharPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Money Printer -->
+                <section class="panel" data-panel="printer">
+                    <div class="panel-header">
+                        <span class="panel-title">Money Printer</span>
+                        <span class="panel-count">Fed Balance Sheet</span>
+                    </div>
+                    <div class="panel-content" id="printerPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Government Contracts -->
+                <section class="panel wide" data-panel="contracts">
+                    <div class="panel-header">
+                        <span class="panel-title">Gov Contracts</span>
+                        <span class="panel-count" id="contractsCount">-</span>
+                    </div>
+                    <div class="panel-content" id="contractsPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- AI Arms Race -->
+                <section class="panel wide" data-panel="ai">
+                    <div class="panel-header">
+                        <span class="panel-title">AI Arms Race</span>
+                        <span class="panel-count" id="aiCount">-</span>
+                    </div>
+                    <div class="panel-content" id="aiPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Layoffs Tracker -->
+                <section class="panel" data-panel="layoffs">
+                    <div class="panel-header">
+                        <span class="panel-title">Layoffs Tracker</span>
+                        <span class="panel-count" id="layoffsCount">-</span>
+                    </div>
+                    <div class="panel-content" id="layoffsPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Venezuela Situation -->
+                <section class="panel" data-panel="venezuela">
+                    <div class="panel-header">
+                        <span class="panel-title">Venezuela Situation</span>
+                        <span class="panel-count" id="venezuelaStatus">-</span>
+                    </div>
+                    <div class="panel-content" id="venezuelaPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Greenland Situation -->
+                <section class="panel" data-panel="greenland">
+                    <div class="panel-header">
+                        <span class="panel-title">Greenland Situation</span>
+                        <span class="panel-count" id="greenlandStatus">-</span>
+                    </div>
+                    <div class="panel-content" id="greenlandPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- Intel Feed -->
+                <section class="panel wide" data-panel="intel">
+                    <div class="panel-header">
+                        <span class="panel-title">Intel Feed</span>
+                        <span class="panel-count" id="intelCount">-</span>
+                    </div>
+                    <div class="panel-content" id="intelPanel">
+                        <div class="loading-msg">Loading...</div>
+                    </div>
+                </section>
+
+                <!-- My Monitors -->
+                <section class="panel" data-panel="monitors">
+                    <div class="panel-header">
+                        <span class="panel-title">My Monitors</span>
+                        <span class="panel-count" id="monitorsCount">-</span>
+                    </div>
+                    <div class="panel-content" id="monitorsPanel">
+                        <div class="monitors-empty">
+                            No monitors configured
+                            <div class="monitors-empty-hint">Click Settings → Add Monitor to get started</div>
+                        </div>
+                    </div>
+                </section>
+            </main>
+        </div>
+    </div>
+
+    <!-- JavaScript Files -->
+    <script src="js/uxento.js"></script>
+    <script src="js/app.js"></script>
+</body>
+</html>

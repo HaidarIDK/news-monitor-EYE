@@ -1,0 +1,31 @@
+/* ===========================================
+   CSS Variables - Theme Configuration
+   =========================================== */
+
+/* Dark Mode (Default) */
+:root {
+    --bg: #0a0a0a;
+    --surface: #141414;
+    --surface-hover: #1a1a1a;
+    --border: #2a2a2a;
+    --text: #e8e8e8;
+    --text-dim: #888;
+    --accent: #3b82f6;
+    --red: #ef4444;
+    --green: #10b981;
+    --yellow: #f59e0b;
+}
+
+/* Light Mode */
+:root.light-mode {
+    --bg: #ffffff;
+    --surface: #f8f9fa;
+    --surface-hover: #f0f1f2;
+    --border: #e5e7eb;
+    --text: #1a1a1a;
+    --text-dim: #6b7280;
+    --accent: #2563eb;
+    --red: #ef4444;
+    --green: #10b981;
+    --yellow: #f59e0b;
+}

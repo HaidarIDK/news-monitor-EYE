@@ -1,0 +1,286 @@
+/* ===========================================
+   Global Map Styles
+   =========================================== */
+
+/* World Map Container */
+.world-map {
+    width: 100%;
+    height: 60vh;
+    min-height: 400px;
+    max-height: 800px;
+    position: relative;
+    background: #101418;
+    overflow: hidden;
+    border-radius: 8px;
+}
+
+:root.light-mode .world-map {
+    background: #f1f5f9;
+}
+
+.world-map svg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+/* Zoomable Map Container */
+.map-zoom-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    transform-origin: center center;
+}
+
+.map-zoom-wrapper.animating {
+    transition: transform 0.15s ease-out;
+}
+
+/* Zoom Controls */
+.map-zoom-controls {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    z-index: 50;
+}
+
+.map-zoom-btn {
+    width: 32px;
+    height: 32px;
+    background: rgba(20, 24, 30, 0.95);
+    border: 1px solid #3a4050;
+    color: #a0a8b8;
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    font-family: inherit;
+    border-radius: 8px;
+}
+
+:root.light-mode .map-zoom-btn {
+    background: #fff;
+    border: 1px solid var(--border);
+    color: var(--text);
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.map-zoom-btn:hover {
+    background: rgba(40, 48, 60, 0.95);
+    border-color: #5a6070;
+    color: #fff;
+}
+
+:root.light-mode .map-zoom-btn:hover {
+    background: var(--surface);
+    border-color: #d1d5db;
+    color: var(--text);
+}
+
+.map-zoom-btn:active {
+    transform: scale(0.95);
+}
+
+.map-zoom-btn:disabled {
+    opacity: 0.3;
+    cursor: not-allowed;
+}
+
+.map-zoom-level {
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    text-align: center;
+    padding: 2px 0;
+    font-family: inherit;
+}
+
+.map-zoom-reset {
+    font-size: 0.7rem;
+    padding: 6px 8px;
+    width: auto;
+    height: auto;
+}
+
+/* Pan Hint */
+.map-pan-hint {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.65rem;
+    color: var(--text-dim);
+    letter-spacing: 0.05em;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: 50;
+    pointer-events: none;
+}
+
+.world-map:hover .map-pan-hint.show {
+    opacity: 0.7;
+}
+
+/* Map Overlays */
+.map-overlays {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.map-overlays > * {
+    pointer-events: auto;
+}
+
+/* Coordinate Labels */
+.coord-label {
+    position: absolute;
+    font-size: 0.65rem;
+    color: #94a3b8;
+    font-family: inherit;
+    pointer-events: none;
+    z-index: 5;
+}
+
+.coord-label.lat {
+    transform: translateY(-50%);
+}
+
+.coord-label.lon {
+    transform: translateX(-50%);
+}
+
+.map-corner-label {
+    position: absolute;
+    font-size: 0.65rem;
+    color: #94a3b8;
+    font-family: inherit;
+    letter-spacing: 0.05em;
+    z-index: 15;
+}
+
+.map-corner-label.tl { top: 10px; left: 12px; }
+.map-corner-label.tr { top: 10px; right: 12px; }
+.map-corner-label.bl { bottom: 10px; left: 12px; }
+.map-corner-label.br { bottom: 10px; right: 12px; }
+
+/* Layer Toggle */
+.map-layer-toggle {
+    position: absolute;
+    top: 10px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 6px;
+    background: rgba(26, 29, 36, 0.95);
+    padding: 8px;
+    border: 1px solid #2a2f3a;
+    border-radius: 10px;
+    z-index: 50;
+    backdrop-filter: blur(8px);
+}
+
+:root.light-mode .map-layer-toggle {
+    background: #fff;
+    border: 1px solid var(--border);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+.layer-btn {
+    background: transparent;
+    border: 1px solid #3a3f4a;
+    color: #9ca3af;
+    font-size: 0.7rem;
+    padding: 0.4rem 0.85rem;
+    cursor: pointer;
+    font-family: inherit;
+    font-weight: 500;
+    transition: all 0.15s ease;
+    border-radius: 6px;
+}
+
+:root.light-mode .layer-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    color: var(--text-dim);
+}
+
+.layer-btn:hover {
+    border-color: #6b7280;
+    color: #e5e7eb;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+:root.light-mode .layer-btn:hover {
+    border-color: #d1d5db;
+    color: var(--text);
+    background: var(--surface-hover);
+}
+
+.layer-btn.active {
+    background: #374151;
+    color: #f0f0f0;
+    border-color: #4b5563;
+}
+
+:root.light-mode .layer-btn.active {
+    background: var(--accent);
+    color: #fff;
+    border-color: var(--accent);
+}
+
+.layer-btn.active:hover {
+    background: #1d4ed8;
+}
+
+/* Live Status Indicator */
+.live-status-indicator {
+    position: absolute;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--surface);
+    padding: 8px 18px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--green);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    border: 1px solid var(--border);
+    letter-spacing: 0.1em;
+    z-index: 50;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+:root.light-mode .live-status-indicator {
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.live-status-indicator::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    background: #22c55e;
+    border-radius: 50%;
+    animation: live-blink 1.5s ease-in-out infinite;
+}
+
+@keyframes live-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+}

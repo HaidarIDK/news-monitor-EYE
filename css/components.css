@@ -1,0 +1,547 @@
+/* ===========================================
+   Component Styles - Markets, Heatmap, etc.
+   =========================================== */
+
+/* Markets Panel */
+.market-item {
+    padding: 0.75rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.market-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.market-symbol {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+}
+
+.market-data {
+    text-align: right;
+}
+
+.market-price {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text);
+}
+
+.market-change {
+    font-size: 0.8rem;
+    font-weight: 500;
+}
+
+.market-change.up {
+    color: var(--green);
+}
+
+.market-change.down {
+    color: var(--red);
+}
+
+/* Sector Heatmap */
+.heatmap {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 6px;
+    padding: 0.75rem;
+}
+
+.heatmap-cell {
+    padding: 0.75rem 0.5rem;
+    text-align: center;
+    font-size: 0.75rem;
+    font-weight: 600;
+    border-radius: 8px;
+}
+
+.heatmap-cell .sector-name {
+    font-size: 0.7rem;
+    opacity: 0.9;
+    margin-bottom: 0.25rem;
+}
+
+.heatmap-cell .sector-change {
+    font-size: 0.85rem;
+}
+
+.heatmap-cell.up-3 { background: #059669; color: #fff; }
+.heatmap-cell.up-2 { background: #10b981; color: #fff; }
+.heatmap-cell.up-1 { background: #34d399; color: #fff; }
+.heatmap-cell.up-0 { background: #a7f3d0; color: #065f46; }
+.heatmap-cell.down-0 { background: #fecaca; color: #991b1b; }
+.heatmap-cell.down-1 { background: #f87171; color: #fff; }
+.heatmap-cell.down-2 { background: #ef4444; color: #fff; }
+.heatmap-cell.down-3 { background: #dc2626; color: #fff; }
+
+/* Polymarket */
+.prediction-item {
+    padding: 0.875rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+}
+
+.prediction-question {
+    font-size: 0.9rem;
+    flex: 1;
+    color: var(--text);
+    line-height: 1.4;
+}
+
+.prediction-odds {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+
+.prediction-yes, .prediction-no {
+    padding: 0.35rem 0.6rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    border-radius: 6px;
+}
+
+.prediction-yes {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.prediction-no {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.prediction-volume {
+    font-size: 0.75rem;
+    color: var(--text-dim);
+    margin-top: 0.3rem;
+}
+
+/* Layoff Tracker */
+.layoff-item {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.layoff-company {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--text);
+}
+
+.layoff-count {
+    font-size: 0.8rem;
+    color: var(--red);
+    font-weight: bold;
+    float: right;
+}
+
+.layoff-meta {
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+}
+
+/* Situation Panels */
+.situation-header {
+    padding: 0.75rem 1rem;
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+}
+
+.situation-title {
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-bottom: 0.3rem;
+}
+
+.situation-subtitle {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+}
+
+.situation-status {
+    display: inline-block;
+    padding: 0.15rem 0.4rem;
+    font-size: 0.55rem;
+    font-weight: bold;
+    border-radius: 2px;
+    margin-left: 0.5rem;
+}
+
+.situation-status.critical { background: var(--red); color: #fff; }
+.situation-status.medium { background: var(--yellow); color: var(--bg); }
+.situation-status.monitoring { background: var(--green); color: var(--bg); }
+
+.situation-item {
+    padding: 0.5rem 1rem;
+    border-bottom: 1px solid var(--border);
+    font-size: 0.7rem;
+}
+
+.situation-item .label {
+    color: var(--text-dim);
+    font-size: 0.55rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Congressional Trades */
+.congress-item {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.75rem;
+}
+
+.congress-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.congress-name {
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: var(--text);
+}
+
+.congress-party {
+    font-size: 0.55rem;
+    padding: 0.1rem 0.3rem;
+    border-radius: 2px;
+    margin-left: 0.4rem;
+}
+
+.congress-party.D { background: #2266cc; color: #fff; }
+.congress-party.R { background: #cc2222; color: #fff; }
+.congress-party.I { background: #666; color: #fff; }
+
+.congress-ticker {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--accent);
+    margin-top: 0.2rem;
+}
+
+.congress-meta {
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    margin-top: 0.15rem;
+}
+
+.congress-type {
+    text-align: right;
+}
+
+.congress-action {
+    font-size: 0.65rem;
+    font-weight: bold;
+    padding: 0.2rem 0.4rem;
+    border-radius: 2px;
+}
+
+.congress-action.buy { background: var(--green); color: var(--bg); }
+.congress-action.sell { background: var(--red); color: #fff; }
+
+.congress-amount {
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    margin-top: 0.25rem;
+}
+
+/* Whale Watch */
+.whale-item {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.whale-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.whale-coin {
+    font-size: 0.7rem;
+    font-weight: bold;
+}
+
+.whale-amount {
+    font-size: 0.75rem;
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.whale-usd {
+    font-size: 0.55rem;
+    color: var(--text-dim);
+}
+
+.whale-flow {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.whale-flow .arrow {
+    color: var(--yellow);
+}
+
+/* Main Character */
+.main-char-display {
+    padding: 1.5rem 1rem;
+    text-align: center;
+}
+
+.main-char-label {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.5rem;
+}
+
+.main-char-name {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: var(--accent);
+    margin-bottom: 0.3rem;
+}
+
+.main-char-count {
+    font-size: 0.7rem;
+    color: var(--text-dim);
+}
+
+.main-char-list {
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+.char-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.35rem 1rem;
+    font-size: 0.7rem;
+}
+
+.char-row .rank {
+    color: var(--text-dim);
+    width: 1.5rem;
+}
+
+.char-row .name {
+    flex: 1;
+}
+
+.char-row .mentions {
+    color: var(--text-dim);
+}
+
+/* Contracts */
+.contract-item {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.contract-agency {
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.contract-desc {
+    font-size: 0.75rem;
+    color: var(--text);
+    margin-top: 0.2rem;
+}
+
+.contract-meta {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 0.3rem;
+}
+
+.contract-vendor {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+}
+
+.contract-value {
+    font-size: 0.7rem;
+    font-weight: bold;
+    color: var(--green);
+}
+
+/* AI Tracker */
+.ai-item {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.ai-source {
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.ai-title {
+    font-size: 0.75rem;
+    color: var(--text);
+    margin-top: 0.15rem;
+}
+
+.ai-date {
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    margin-top: 0.2rem;
+}
+
+/* Intel Feed */
+.intel-item {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.intel-item.priority {
+    border-left: 2px solid var(--red);
+    background: rgba(255, 68, 68, 0.05);
+}
+
+.intel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    margin-bottom: 0.2rem;
+}
+
+.intel-source {
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+.intel-tags {
+    display: flex;
+    gap: 0.3rem;
+    flex-wrap: wrap;
+}
+
+.intel-tag {
+    font-size: 0.5rem;
+    padding: 0.1rem 0.35rem;
+    border-radius: 2px;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+}
+
+.intel-tag.region { background: #1a3a5a; color: #6ab0ff; }
+.intel-tag.topic { background: #3a2a4a; color: #b090d0; }
+.intel-tag.osint { background: #2a4a3a; color: #60d090; }
+.intel-tag.govt { background: #4a3a2a; color: #d0a060; }
+
+.intel-title {
+    font-size: 0.75rem;
+    color: var(--text);
+    text-decoration: none;
+    display: block;
+    line-height: 1.4;
+}
+
+.intel-title:hover {
+    color: var(--accent);
+}
+
+.intel-meta {
+    font-size: 0.55rem;
+    color: var(--text-dim);
+    margin-top: 0.25rem;
+    display: flex;
+    gap: 0.75rem;
+}
+
+/* Money Printer Gauge */
+.printer-gauge {
+    padding: 1.5rem 1rem;
+    text-align: center;
+}
+
+.printer-label {
+    font-size: 0.6rem;
+    color: var(--text-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.75rem;
+}
+
+.printer-value {
+    font-size: 2rem;
+    font-weight: bold;
+    color: var(--accent);
+}
+
+.printer-unit {
+    font-size: 0.8rem;
+    color: var(--text-dim);
+    margin-left: 0.3rem;
+}
+
+.printer-change {
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+.printer-change.up { color: var(--red); }
+.printer-change.down { color: var(--green); }
+
+.printer-bar {
+    margin-top: 1rem;
+    height: 8px;
+    background: var(--surface);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.printer-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--green), var(--yellow), var(--red));
+    transition: width 0.5s ease;
+}
+
+.printer-status {
+    margin-top: 0.75rem;
+    font-size: 0.65rem;
+    color: var(--text-dim);
+}
+
+.printer-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-right: 0.4rem;
+    animation: blink 1s infinite;
+}
+
+.printer-indicator.on { background: var(--red); }
+.printer-indicator.off { background: var(--green); }
